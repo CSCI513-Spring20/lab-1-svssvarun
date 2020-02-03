@@ -1,8 +1,10 @@
+
 public class Selectionsort implements SortStrategy{
 
 	public void getSortTime(long[] num)
 {
 		long startTime = System.currentTimeMillis();
+		System.out.println("Length is "+num.length);
 				for (int i = 0; i < num.length-1; i++)
 		{
 		int min = i;

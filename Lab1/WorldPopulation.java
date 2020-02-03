@@ -1,20 +1,19 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.Reader;
+
 import java.util.StringTokenizer;
 
 public class WorldPopulation {
 
-	static SortStrategy sortStrategy;
+	SortStrategy sortStrategy;
 	long[] population = new long[13484]; 
 	public WorldPopulation(){
-		sortStrategy = new Insertionsort();
+		sortStrategy = new Bubblesort();
 	}
 	
 	public void readInputFile(){
-		population = readPopulationFile("src\\WorldPopulation.csv");
+		population = readPopulationFile("Lab1//WorldPopulation.csv");
 	}
 	
 	public void setStrategy(SortStrategy strategy){
@@ -31,12 +30,12 @@ public class WorldPopulation {
 			  
 			  while((line = reader.readLine()) != null) {
 			     StringTokenizer tokenizer = new StringTokenizer(line, ",");
-			     String countryName = tokenizer.nextToken(); 
-			     String year = tokenizer.nextToken();
+			     tokenizer.nextToken(); 
+			     tokenizer.nextToken();
 			     String pop = tokenizer.nextToken();
 			     long popCount = Long.parseLong(pop);
 			     population[counter++]=popCount;
-			     counter++;
+			    
 			  }
 			  reader.close();
 		    } catch (Exception e) {
@@ -48,7 +47,8 @@ public class WorldPopulation {
 	}
 	
 	
-	public void sortPopulation(){		
+	public void sortPopulation(SortStrategy strategy){	
+		strategy.getSortTime(population);
 		
 	}
 	
@@ -59,17 +59,18 @@ public class WorldPopulation {
 	
 	public static void main(String[] args) {
 		WorldPopulation worldPopulation = new WorldPopulation();
+		
 		worldPopulation.readInputFile();
 		worldPopulation.setStrategy(new Insertionsort()); 
-		worldPopulation.sortPopulation();
+		worldPopulation.sortPopulation(new Insertionsort());
 		
 		worldPopulation.readInputFile();
 		worldPopulation.setStrategy(new Bubblesort()); 
-		worldPopulation.sortPopulation();
+		worldPopulation.sortPopulation(new Bubblesort());
 		
 		worldPopulation.readInputFile();
 		worldPopulation.setStrategy(new Selectionsort());
-		worldPopulation.sortPopulation();
+		worldPopulation.sortPopulation(new Selectionsort());
 	}
 
 }
