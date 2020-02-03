@@ -7,11 +7,10 @@ import java.util.StringTokenizer;
 
 public class WorldPopulation {
 
-	SortStrategy sortStrategy;
-	long[] population = new long[13484]; // Cheating because we know number of records!!
-	// Lab Exercise:  After creating some strategy classes -- set the default strategy here.
+	static SortStrategy sortStrategy;
+	long[] population = new long[13484]; 
 	public WorldPopulation(){
-		sortStrategy = new #; // Set the default strategy here.	
+		sortStrategy = new Insertionsort();
 	}
 	
 	public void readInputFile(){
@@ -22,15 +21,33 @@ public class WorldPopulation {
 		sortStrategy = strategy;
 	}
 	
-	// Lab Exercise:  Read in the WorldPopulation.csv
-	// Extract ONLY the numbers and store them into population[]
+	
 	public long[] readPopulationFile(String fileName){
-	  
+		int counter = 0;
+		   try {
+			  FileReader inputFile = new FileReader(fileName);
+			  BufferedReader reader = new BufferedReader(inputFile);
+	          String line;
+			  
+			  while((line = reader.readLine()) != null) {
+			     StringTokenizer tokenizer = new StringTokenizer(line, ",");
+			     String countryName = tokenizer.nextToken(); 
+			     String year = tokenizer.nextToken();
+			     String pop = tokenizer.nextToken();
+			     long popCount = Long.parseLong(pop);
+			     population[counter++]=popCount;
+			     counter++;
+			  }
+			  reader.close();
+		    } catch (Exception e) {
+			  e.printStackTrace();   
+			}   
+			
+				  
 		return population;
 	}
 	
-	// Lab Exercise.  Complete this method.
-	// Delegate sorting to the strategy object
+	
 	public void sortPopulation(){		
 		
 	}
@@ -39,13 +56,20 @@ public class WorldPopulation {
 		System.out.println("dd");
 	}
 	
-	// Experiment with various strategies.
-	// Create 3 strategies -- Bubble, insertion, and selection sort.
+	
 	public static void main(String[] args) {
 		WorldPopulation worldPopulation = new WorldPopulation();
 		worldPopulation.readInputFile();
-		worldPopulation.setStrategy(#); //  Currently no strategies.
-		worldPopulation.sortPopulation();	
+		worldPopulation.setStrategy(new Insertionsort()); 
+		worldPopulation.sortPopulation();
+		
+		worldPopulation.readInputFile();
+		worldPopulation.setStrategy(new Bubblesort()); 
+		worldPopulation.sortPopulation();
+		
+		worldPopulation.readInputFile();
+		worldPopulation.setStrategy(new Selectionsort());
+		worldPopulation.sortPopulation();
 	}
 
 }
